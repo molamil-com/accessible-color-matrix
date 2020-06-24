@@ -9504,44 +9504,58 @@
 			},
 			palette);
 	};
+	var _toolness$accessible_color_matrix$Palette$deserializePalette = function (items) {
+		var entry = F2(
+			function (id, _p2) {
+				var _p3 = _p2;
+				var _p4 = _p3._1;
+				return {
+					id: id,
+					name: _p3._0,
+					color: _toolness$accessible_color_matrix$Palette$safeHexToColor(_p4),
+					editableColor: _toolness$accessible_color_matrix$Palette$filterHex(_p4)
+				};
+			});
+		return A2(_elm_lang$core$List$indexedMap, entry, items);
+	};
 	var _toolness$accessible_color_matrix$Palette$updatePalette = F2(
 		function (msg, palette) {
-			var _p2 = msg;
-			switch (_p2.ctor) {
+			var _p5 = msg;
+			switch (_p5.ctor) {
 				case 'ChangeName':
 					return A2(
 						_elm_lang$core$List$map,
 						function (e) {
-							return _elm_lang$core$Native_Utils.eq(e.id, _p2._0) ? _elm_lang$core$Native_Utils.update(
+							return _elm_lang$core$Native_Utils.eq(e.id, _p5._0) ? _elm_lang$core$Native_Utils.update(
 								e,
-								{name: _p2._1}) : e;
+								{name: _p5._1}) : e;
 						},
 						palette);
 				case 'ChangeColor':
-					var newColor = _toolness$accessible_color_matrix$Palette$filterHex(_p2._1);
+					var newColor = _toolness$accessible_color_matrix$Palette$filterHex(_p5._1);
 					var changeColor = function (entry) {
-						var _p3 = _eskimoblood$elm_color_extra$Color_Convert$hexToColor(newColor);
-						if (_p3.ctor === 'Nothing') {
+						var _p6 = _eskimoblood$elm_color_extra$Color_Convert$hexToColor(newColor);
+						if (_p6.ctor === 'Nothing') {
 							return _elm_lang$core$Native_Utils.update(
 								entry,
 								{editableColor: newColor});
 						} else {
 							return _elm_lang$core$Native_Utils.update(
 								entry,
-								{color: _p3._0, editableColor: newColor});
+								{color: _p6._0, editableColor: newColor});
 						}
 					};
 					return A2(
 						_elm_lang$core$List$map,
 						function (e) {
-							return _elm_lang$core$Native_Utils.eq(e.id, _p2._0) ? changeColor(e) : e;
+							return _elm_lang$core$Native_Utils.eq(e.id, _p5._0) ? changeColor(e) : e;
 						},
 						palette);
 				case 'Remove':
 					return A2(
 						_elm_lang$core$List$filter,
 						function (e) {
-							return !_elm_lang$core$Native_Utils.eq(e.id, _p2._0);
+							return !_elm_lang$core$Native_Utils.eq(e.id, _p5._0);
 						},
 						palette);
 				default:
@@ -9575,24 +9589,6 @@
 						});
 			}
 		});
-	var _toolness$accessible_color_matrix$Palette$maxPaletteEntries = 6;
-	var _toolness$accessible_color_matrix$Palette$deserializePalette = function (items) {
-		var entry = F2(
-			function (id, _p4) {
-				var _p5 = _p4;
-				var _p6 = _p5._1;
-				return {
-					id: id,
-					name: _p5._0,
-					color: _toolness$accessible_color_matrix$Palette$safeHexToColor(_p6),
-					editableColor: _toolness$accessible_color_matrix$Palette$filterHex(_p6)
-				};
-			});
-		return A2(
-			_elm_lang$core$List$indexedMap,
-			entry,
-			A2(_elm_lang$core$List$take, _toolness$accessible_color_matrix$Palette$maxPaletteEntries, items));
-	};
 	var _toolness$accessible_color_matrix$Palette$PaletteEntry = F4(
 		function (a, b, c, d) {
 			return {id: a, name: b, color: c, editableColor: d};
@@ -9611,9 +9607,7 @@
 		});
 	var _toolness$accessible_color_matrix$Palette$paletteUl = F2(
 		function (palette, isEditable) {
-			var addActions = (isEditable && (_elm_lang$core$Native_Utils.cmp(
-				_elm_lang$core$List$length(palette),
-				_toolness$accessible_color_matrix$Palette$maxPaletteEntries) < 0)) ? {
+			var addActions = isEditable ? {
 				ctor: '::',
 				_0: A2(
 					_elm_lang$html$Html$li,
